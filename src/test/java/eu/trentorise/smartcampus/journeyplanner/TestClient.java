@@ -4,8 +4,8 @@ import it.sayservice.platform.smartplanner.data.message.Itinerary;
 import it.sayservice.platform.smartplanner.data.message.SimpleLeg;
 import it.sayservice.platform.smartplanner.data.message.journey.RecurrentJourneyParameters;
 import it.sayservice.platform.smartplanner.data.message.journey.SingleJourney;
-import it.sayservice.platform.smartplanner.data.message.otpbeans.BusTimeTable;
-import it.sayservice.platform.smartplanner.data.message.otpbeans.LimitedBusTimeTable;
+import it.sayservice.platform.smartplanner.data.message.otpbeans.TransitTimeTable;
+import it.sayservice.platform.smartplanner.data.message.otpbeans.LimitedTransitTimeTable;
 import it.sayservice.platform.smartplanner.data.message.otpbeans.Route;
 import it.sayservice.platform.smartplanner.data.message.otpbeans.Stop;
 import it.sayservice.platform.smartplanner.data.message.otpbeans.StopTime;
@@ -54,6 +54,7 @@ public class TestClient {
 		SingleJourney request = mapper.readValue(req, SingleJourney.class);
 		singleResults = journeyPlannerConnector.planSingleJourney(request, AUTH_TOKEN);
 		Assert.assertEquals(3, singleResults.size());
+		System.out.println(singleResults);
 		
 		List<Route> r = journeyPlannerConnector.getRoutes("12", AUTH_TOKEN);
 		Assert.assertNotNull(r);
@@ -73,11 +74,11 @@ public class TestClient {
 		Assert.assertNotNull(sl);
 		System.out.println(sl);
 		
-		Map<String, LimitedBusTimeTable> tmap = journeyPlannerConnector.getLimitedTimetable("12", "20125p", 3, AUTH_TOKEN);
+		Map<String, LimitedTransitTimeTable> tmap = journeyPlannerConnector.getLimitedTimetable("12", "20125p", 3, AUTH_TOKEN);
 		Assert.assertNotNull(tmap);
 		System.out.println(tmap);
 		
-		BusTimeTable btt = journeyPlannerConnector.getBusTimes("05A", System.currentTimeMillis(), System.currentTimeMillis() + 1000 * 60 * 60, AUTH_TOKEN);
+		TransitTimeTable btt = journeyPlannerConnector.getTransitTimes("05A", System.currentTimeMillis(), System.currentTimeMillis() + 1000 * 60 * 60, AUTH_TOKEN);
 		Assert.assertNotNull(btt);
 		System.out.println(btt);
 	}

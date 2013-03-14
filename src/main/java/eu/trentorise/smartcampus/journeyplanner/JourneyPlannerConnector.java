@@ -5,8 +5,8 @@ import it.sayservice.platform.smartplanner.data.message.SimpleLeg;
 import it.sayservice.platform.smartplanner.data.message.journey.RecurrentJourney;
 import it.sayservice.platform.smartplanner.data.message.journey.RecurrentJourneyParameters;
 import it.sayservice.platform.smartplanner.data.message.journey.SingleJourney;
-import it.sayservice.platform.smartplanner.data.message.otpbeans.BusTimeTable;
-import it.sayservice.platform.smartplanner.data.message.otpbeans.LimitedBusTimeTable;
+import it.sayservice.platform.smartplanner.data.message.otpbeans.TransitTimeTable;
+import it.sayservice.platform.smartplanner.data.message.otpbeans.LimitedTransitTimeTable;
 import it.sayservice.platform.smartplanner.data.message.otpbeans.Route;
 import it.sayservice.platform.smartplanner.data.message.otpbeans.Stop;
 import it.sayservice.platform.smartplanner.data.message.otpbeans.StopTime;
@@ -198,7 +198,7 @@ public class JourneyPlannerConnector {
 	 * @return a map with route ids as key and the next trips as values
 	 * @throws JourneyPlannerConnectorException
 	 */
-	public Map<String, LimitedBusTimeTable> getLimitedTimetable(String agencyId, String stopId, int maxResults, String token) throws JourneyPlannerConnectorException {
+	public Map<String, LimitedTransitTimeTable> getLimitedTimetable(String agencyId, String stopId, int maxResults, String token) throws JourneyPlannerConnectorException {
 		try {
 		String url = journeyPlannerURL + "getlimitedtimetable/" + agencyId + "/" + stopId + "/" + maxResults;
 		
@@ -211,10 +211,10 @@ public class JourneyPlannerConnector {
 			return null;
 		}
 		
-		Map<String, LimitedBusTimeTable> response = new TreeMap<String, LimitedBusTimeTable>();
+		Map<String, LimitedTransitTimeTable> response = new TreeMap<String, LimitedTransitTimeTable>();
 		Map<String, Object> map = mapper.readValue(resp, Map.class);
 		for (String key: map.keySet()) {
-			LimitedBusTimeTable ltt = mapper.convertValue(map.get(key), LimitedBusTimeTable.class);
+			LimitedTransitTimeTable ltt = mapper.convertValue(map.get(key), LimitedTransitTimeTable.class);
 			response.put(key, ltt);
 		}
 		
@@ -233,9 +233,9 @@ public class JourneyPlannerConnector {
 	 * @return
 	 * @throws JourneyPlannerConnectorException
 	 */
-	public BusTimeTable getBusTimes(String routeId, long from, long to, String token) throws JourneyPlannerConnectorException {
+	public TransitTimeTable getTransitTimes(String routeId, long from, long to, String token) throws JourneyPlannerConnectorException {
 		try {
-		String url = journeyPlannerURL + "getbustimes/" + routeId + "/" + from + "/" + to;
+		String url = journeyPlannerURL + "gettransittimes/" + routeId + "/" + from + "/" + to;
 		
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.configure(Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -246,7 +246,7 @@ public class JourneyPlannerConnector {
 			return null;
 		}
 		
-		BusTimeTable response = mapper.readValue(resp, BusTimeTable.class);
+		TransitTimeTable response = mapper.readValue(resp, TransitTimeTable.class);
 		
 		return response;
 		} catch (Exception e) {
