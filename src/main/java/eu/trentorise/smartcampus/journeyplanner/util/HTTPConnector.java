@@ -44,8 +44,8 @@ public class HTTPConnector {
 
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setRequestMethod("GET");
-		conn.setDoOutput(true);
-		conn.setDoInput(true);
+//		conn.setDoOutput(true);
+//		conn.setDoInput(true);
 
 		if (accept != null) {
 			conn.setRequestProperty("Accept", accept);
